@@ -29,18 +29,19 @@ print(data)
 print(f"we can oneline our evaluations and loops: print({{i for i in [1,2,3]}}) if True else print(\"wrong\")")
 print({i for i in [1,2,3]}) if True else print("wrong")
 
-print("\n------------ARRAYS------------")
+print("\n------------LISTS------------")
+# declare with [], mutable (and therefore dynamic),
 arr = ["c", 2, "str", 6.2, 5*2, False]
 print(f"arr = {arr}")
 arr.append({2})
-print(f"we can add to an array using the append method: arr.append({{2}}) = {arr}")
+print(f"we can add to a list using the append method: arr.append({{2}}) = {arr}")
 popped = arr.pop()
 print(f"we can also pop off the end (or at an index but pop() defaults to -1): arr.pop() -> popped {popped} off {arr}")
 print(f"slicing works like [start:end(opt):step(opt)]:\ngiven {arr}...\n[-1] = last element = {arr[-1]}\n[:3] = first three = {arr[:3]}\n[::-1] = reversed = {arr[::-1]}")
 # other important list info: we can concatenate lists like arr1 + arr2, check if element in list with the in keyword, and check length with len(arr)
 
 print("\n------------TUPLES------------")
-
+# difference with lists? immutable, meaning tup[0] = None raises an error
 
 # COVER LANGUAGE LEVEL STATEMENTS: assignment (=, +=, -=, annotated assignment...), control flow (if, elif, else, for, while, break, continue), definition (def, class, return, yield),
 # exceptions (try, except, else, finally, raise, assert), import (import, from, as), scope (global, nonlocal), del (del), context (with), switch stmt (match, case), webdev (async, await)\
