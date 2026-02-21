@@ -18,7 +18,7 @@ print("the print function by default attaches a newline character to the end, we
 print("see")
 
 """
-COMMENTED FOR SIMPLICITY
+COMMENTED FOR RUNNING
 data = input("we can also recieve input from the terminal:")
 print(data)
 """
@@ -35,10 +35,12 @@ print(f"arr = {arr}")
 arr.append({2})
 print(f"we can add to an array using the append method: arr.append({{2}}) = {arr}")
 popped = arr.pop()
-print(f"we can also pop off the end: arr.pop() -> popped {popped} off {arr}")
+print(f"we can also pop off the end (or at an index but pop() defaults to -1): arr.pop() -> popped {popped} off {arr}")
+print(f"slicing works like [start:end(opt):step(opt)]:\ngiven {arr}...\n[-1] = last element = {arr[-1]}\n[:3] = first three = {arr[:3]}\n[::-1] = reversed = {arr[::-1]}")
+# other important list info: we can concatenate lists like arr1 + arr2, check if element in list with the in keyword, and check length with len(arr)
+
+print("\n------------TUPLES------------")
 
 
 # COVER LANGUAGE LEVEL STATEMENTS: assignment (=, +=, -=, annotated assignment...), control flow (if, elif, else, for, while, break, continue), definition (def, class, return, yield),
 # exceptions (try, except, else, finally, raise, assert), import (import, from, as), scope (global, nonlocal), del (del), context (with), switch stmt (match, case), webdev (async, await)\
-
-#test
