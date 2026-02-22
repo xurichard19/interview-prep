@@ -47,26 +47,33 @@ assert [i for i in "str"] if edit else print("failed") == ['s','t','r']
 #------------------------------LIST------------------------------
 # declare with [], mutable (and therefore dynamic), overallocates memory
 arr = ["c", 2, "str", 6.2, 5*2, False]
+
 # we can add to a list by using the append method or concatenating
 arr.append({2})
 assert arr == ["c", 2, "str", 6.2, 5*2, False, {2}]
+
 # we can remove from a list at an index using pop (defaults to -1)
 popped = arr.pop()
 assert arr == ["c", 2, "str", 6.2, 5*2, False]
+
 # slicing works like [start : end(op) : step(op)], start moves towards end with step
 assert arr[5:1:-1] == [False, 10, 6.2, 'str']
 
 #------------------------------TUPLE------------------------------
 # declare with (), immutable, faster indexing
 # operations largely remain the same as lists (ex. indexing, len, slicing...) with the exception of in-place modifications
+
+# we can unpack all iterables (but usually tuples) like so...
 a, b, c = (1,2,3)
-print(f"all iterables can be unpacked: given a, b, c = (1,2,3), a={a}, b={b}, c={c}")
+assert a == 1 and b == 2 and c == 3
 
 #----------------------------DICTIONARY----------------------------
 # declare with {}, o(1) search, keys must be immutable, items maintain order post-python3.7
-example = {"f":1, 3:0, "s":10, False:True}
-print(f"given {{'f': 1, 3: 0, 's': 10, False: True}},  keys = {example.keys()}")
+dict = {"f":1, 3:0, "s":10, False:True}
 
+# we can create an iterable for the keys and values of a dict using the keys() and values() methods
+assert list(dict.keys()) == ['f', 3, 's', False]
+assert list(dict.values()) == [1, 0, 10, True]
 
 # COVER LANGUAGE LEVEL STATEMENTS: assignment (=, +=, -=, annotated assignment...), control flow (if, elif, else, for, while, break, continue), definition (def, class, return, yield),
 # exceptions (try, except, else, finally, raise, assert), import (import, from, as), scope (global, nonlocal), del (del), context (with), switch stmt (match, case), webdev (async, await)\
@@ -74,5 +81,3 @@ print(f"given {{'f': 1, 3: 0, 's': 10, False: True}},  keys = {example.keys()}")
 # cover common development practices (type hinting)
 
 # cover function decorators, *args, lambda functions
-
-print(f"\n{dir()}")
