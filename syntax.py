@@ -30,7 +30,7 @@ print(f"we can oneline our evaluations and loops: print({{i for i in [1,2,3]}}) 
 print({i for i in [1,2,3]}) if True else print("wrong")
 
 print("\n------------LISTS------------")
-# declare with [], mutable (and therefore dynamic),
+# declare with [], mutable (and therefore dynamic)
 arr = ["c", 2, "str", 6.2, 5*2, False]
 print(f"arr = {arr}")
 arr.append({2})
@@ -41,7 +41,12 @@ print(f"slicing works like [start:end(opt):step(opt)]:\ngiven {arr}...\n[-1] = l
 # other important list info: we can concatenate lists like arr1 + arr2, check if element in list with the in keyword, and check length with len(arr)
 
 print("\n------------TUPLES------------")
-# difference with lists? immutable, meaning tup[0] = None raises an error
+# declare with (), immutable, faster indexing
+# operations largely remain the same as lists (ex. indexing, len, slicing...) with the exception of in-place modifications
+a, b, c = (1,2,3)
+print(f"all iterables can be unpacked: given a, b, c = (1,2,3), a={a}, b={b}, c={c}")
+
+print("\n------------DICTIONARIES------------")
 
 # COVER LANGUAGE LEVEL STATEMENTS: assignment (=, +=, -=, annotated assignment...), control flow (if, elif, else, for, while, break, continue), definition (def, class, return, yield),
 # exceptions (try, except, else, finally, raise, assert), import (import, from, as), scope (global, nonlocal), del (del), context (with), switch stmt (match, case), webdev (async, await)\
