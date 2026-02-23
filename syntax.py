@@ -75,7 +75,7 @@ d = {"f":1, 3:0, "s":10, False:True}
 assert list(d.keys()) == ['f', 3, 's', False]
 assert list(d.values()) == [1, 0, 10, True]
 
-# we can unpack dictionaries using the ** operator
+# we can unpack dictionaries using the ** operator (this has many more uses, more on this later)
 assert "s" in {'9':9, "t":False, **d, "f":None}
 
 #-------------------------------SET-------------------------------
@@ -128,8 +128,8 @@ else: pass
 with open("README.md", "r", encoding="utf-16") as f:
     assert f.readlines()[1] == 'i review python, dsa, oop, testing, django, react, and sql\n'
 
-#----------------------------FUNCTIONS----------------------------
-# we create using def keyword, pass in arguments as parameters
+#----------------------------FUNCTION----------------------------
+# we create using def keyword, pass in arguments as parameters, variables are contained in the local scope (unless we use the global keyword)
 def func(param1: int, param2: str) -> bool: # type hinting is a good coding practice
     local_v: int = param1 + 1 # typed assignment
     return local_v
@@ -156,11 +156,36 @@ assert "forex" in kwargs_example("mr beats contestant", 1, indoor_shrimp_farming
 ahh = [2,5,1,7,3,10]
 assert args_example(*ahh) == 21
 agg = {"v1": 2, "v2":1, "mog":True, "job":None}
-assert kwargs_example(**agg)
+assert kwargs_example(**agg) # ** operator must unpack a mapping
 
+# functions in python are treated as first class objects (assignable, passable, returnable, storable)
+def zyn_vending_machine_factory(id):
+    def zyn_vending_machine(count):
+        return f"id {id}, {count} zyns"
+    return zyn_vending_machine # return a function
+zvm = zyn_vending_machine_factory("wef0ngdfb") # assign function to a variable
+assert zvm(0) == "id wef0ngdfb, 0 zyns"
 
+# lambda functions in python allow us to create anonymous temporary functions, lambda args: expression
+assert (lambda x: x + 2)(2) == 4
+# lambda functions can be a powerful tool for functions that accept other functions as arguments
+d = [1, 4, 7, 3, 4]
+assert list(map(lambda x: x / 2, d)) == [0.5, 2.0, 3.5, 1.5, 2.0]
+# also very useful in sorting complicated collections
+ed = {"ima hogg":23, "amillion buggs":19, "olive garden":27, "apple":2}
+assert sorted(ed, key=lambda x: ed[x]) == ['apple', 'amillion buggs', 'ima hogg', 'olive garden']
 
+#-----------------------------MODULE-----------------------------
+# we import modules using the import keyword, we can examine the functions/attributes in a module with dir()
+# most useful standard modules in python (installation not required)...
+import os
+import sys
+import math # standard math functions
+import re
+import collections # data structures, queue/stack and heap implementations in particular
+import unittest
 
+#------------------------------CLASS------------------------------
 
 
 # COVER LANGUAGE LEVEL STATEMENTS: assignment (=, +=, -=, annotated assignment...), control flow (if, elif, else, for, while, break, continue), definition (def, class, return, yield),
