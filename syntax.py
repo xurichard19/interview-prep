@@ -42,7 +42,7 @@ bool(), dict(), float(), int(), list(), set(), str(), tuple()
 
 # we can write our loops and conditionals in one line
 edit = True # edit this variable to False
-assert [i for i in "str"] if edit else print("failed") == ['s','t','r']
+assert ([i for i in "str"] if edit else print("failed")) == ['s','t','r']
 
 #------------------------------LIST------------------------------
 # declare with [], mutable (and therefore dynamic), overallocates memory
@@ -68,25 +68,25 @@ a, b, c = (1,2,3)
 assert a == 1 and b == 2 and c == 3
 
 #----------------------------DICTIONARY----------------------------
-# declare with {}, o(1) search, keys must be immutable, items maintain order post-python3.7
-dict = {"f":1, 3:0, "s":10, False:True}
+# declare with {}, o(1) search average, keys must be hashable (immutable), items maintain order post-python3.7
+d = {"f":1, 3:0, "s":10, False:True}
 
 # we can create an iterable for the keys and values of a dict using the keys() and values() methods
-assert list(dict.keys()) == ['f', 3, 's', False]
-assert list(dict.values()) == [1, 0, 10, True]
+assert list(d.keys()) == ['f', 3, 's', False]
+assert list(d.values()) == [1, 0, 10, True]
 
 # we can unpack dictionaries using the ** operator
-assert "s" in {'9':9, "t":False, **dict, "f":None}
+assert "s" in {'9':9, "t":False, **d, "f":None}
 
 #-------------------------------SET-------------------------------
-# declare with {}, o(1) search, elements must be immutable
+# declare with set() or {...}, o(1) search average, elements must be hashable (immutable)
 s = set()
 s.add(1)
 assert 1 in s
 
 try:
     s.add([2,3])
-except:
+except TypeError:
     pass
 assert(len(s) == 1)
 
@@ -97,7 +97,7 @@ assert {2, 6, 3, 1} - {4, 2, 1} == {6, 3} # difference
 assert not {2, 6, 3, 1} <= {4, 2, 1} # is subset of
 
 #---------------------------CONTROL FlOW---------------------------
-# indentation is necessary in python since we do not use ;
+# indentation is necessary in python since we are not required to use ; (can optionally be used as a separator)
 
 # we have an equivalent to switch statements in python...
 m = 2
@@ -128,6 +128,35 @@ else: pass
 with open("README.md", "r", encoding="utf-16") as f:
     assert f.readlines()[1] == 'i review python, dsa, oop, testing, django, react, and sql\n'
 
+#----------------------------FUNCTIONS----------------------------
+# we create using def keyword, pass in arguments as parameters
+def func(param1: int, param2: str) -> bool: # type hinting is a good coding practice
+    local_v: int = param1 + 1 # typed assignment
+    return local_v
+assert func(1,2) == 2 # type hinting does not force static typing, rather serves as hints for developing
+
+# python does not support function overloading (overwritten), but we can use default arguments to replicate varying arguments
+def eligibility(name, tent, age=20, eligible=False): # nondefault args must come before default args
+    tent += 1
+    return f"{name} is {"not " if age < 15 or not eligible else ""}eligible"
+assert "bart is eligible" == eligibility("bart", eligible=True, tent=2) # keyword args (pass explicitly with param name) can be written in any order
+
+# we can create functions that use a variable number of arguments using *args and **kwargs
+def args_example(v1, v2, *vn: int): # we arent strictly required to name it args, the functionality hinges on the * operator
+    assert type(vn) == tuple # the * operator will combine the remaining arguments into a tuple
+    return sum(vn)
+assert args_example(1,2,43,2,4,32) == 81
+def kwargs_example(v1, v2, **args): # we also do not need to name kwargs
+    assert type(args) == dict # the ** operator creates a dictionary using the remaining keyword arguments
+    return {i for i in args.values()}
+assert "forex" in kwargs_example("mr beats contestant", 1, indoor_shrimp_farming=True, occupation="forex")
+# we can use *args and **kwargs in the same function but i didnt for a clearer explanation
+
+# we can also use the * and ** operators in reverse to unpack arguments into a function...
+ahh = [2,5,1,7,3,10]
+assert args_example(*ahh) == 21
+agg = {"v1": 2, "v2":1, "mog":True, "job":None}
+assert kwargs_example(**agg)
 
 
 
