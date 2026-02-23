@@ -132,13 +132,13 @@ with open("README.md", "r", encoding="utf-16") as f:
 # we create using def keyword, pass in arguments as parameters, variables are contained in the local scope (unless we use the global keyword)
 def func(param1: int, param2: str) -> bool: # type hinting is a good coding practice
     local_v: int = param1 + 1 # typed assignment
-    return local_v
-assert func(1,2) == 2 # type hinting does not force static typing, rather serves as hints for developing
+    return local_v > 1
+assert func(1,2) # type hinting does not force static typing, rather serves as hints for developing
 
 # python does not support function overloading (overwritten), but we can use default arguments to replicate varying arguments
 def eligibility(name, tent, age=20, eligible=False): # nondefault args must come before default args
     tent += 1
-    return f"{name} is {"not " if age < 15 or not eligible else ""}eligible"
+    return f"{name} is {'not ' if age < 15 or not eligible else ''}eligible"
 assert "bart is eligible" == eligibility("bart", eligible=True, tent=2) # keyword args (pass explicitly with param name) can be written in any order
 
 # we can create functions that use a variable number of arguments using *args and **kwargs
@@ -153,18 +153,18 @@ assert "forex" in kwargs_example("mr beats contestant", 1, indoor_shrimp_farming
 # we can use *args and **kwargs in the same function but i didnt for a clearer explanation
 
 # we can also use the * and ** operators in reverse to unpack arguments into a function...
-ahh = [2,5,1,7,3,10]
-assert args_example(*ahh) == 21
-agg = {"v1": 2, "v2":1, "mog":True, "job":None}
-assert kwargs_example(**agg) # ** operator must unpack a mapping
+a = [2,5,1,7,3,10]
+assert args_example(*a) == 21
+b = {"v1": 2, "v2":1, "v3":True, "v4":None}
+assert kwargs_example(**b) # ** operator must unpack a mapping
 
 # functions in python are treated as first class objects (assignable, passable, returnable, storable)
-def zyn_vending_machine_factory(id):
-    def zyn_vending_machine(count):
+def create(id):
+    def f(count):
         return f"id {id}, {count} zyns"
-    return zyn_vending_machine # return a function
-zvm = zyn_vending_machine_factory("wef0ngdfb") # assign function to a variable
-assert zvm(0) == "id wef0ngdfb, 0 zyns"
+    return f # return a function
+zvm = create(12) # assign function to a variable
+assert zvm(0) == "id 12, 0 zyns"
 
 # lambda functions in python allow us to create anonymous temporary functions, lambda args: expression
 assert (lambda x: x + 2)(2) == 4
@@ -172,8 +172,8 @@ assert (lambda x: x + 2)(2) == 4
 d = [1, 4, 7, 3, 4]
 assert list(map(lambda x: x / 2, d)) == [0.5, 2.0, 3.5, 1.5, 2.0]
 # also very useful in sorting complicated collections
-ed = {"ima hogg":23, "amillion buggs":19, "olive garden":27, "apple":2}
-assert sorted(ed, key=lambda x: ed[x]) == ['apple', 'amillion buggs', 'ima hogg', 'olive garden']
+ed = {"c":23, "b":19, "olive garden":27, "a":2}
+assert sorted(ed, key=lambda x: ed[x]) == ['a', 'b', 'c', 'olive garden']
 
 #-----------------------------MODULE-----------------------------
 # we import modules using the import keyword, we can examine the functions/attributes in a module with dir()
@@ -185,12 +185,57 @@ import re
 import collections # data structures, queue/stack and heap implementations in particular
 import unittest
 
+# we can import under an alias or import specific functions from a module
+import json as j
+from keyword import iskeyword
+
 #------------------------------CLASS------------------------------
+# declare with class keyword, classes can have attributes methods and dunder methods (like __init__)
+class Example:
+    count = 0 # class variable, associated with the class
+    
+    # we can describe how our object behaves upon initialization
+    def __init__(self, id: str, arg: int=0) -> None: # dunder methods dictate how the class interacts with built-in python operations
+        self.arg = arg # instance variable, is tied to the instance of Example
+        Example.count += 1
+        self._key = hash(id) # convention representing internal use, python does not enforce this (it rarely enforces anything for that matter)
 
+    # instance methods operate on a specific instance of a class, take self as a param
+    def imethod(self):
+        return self.arg
+    
+    # class methods is shared between all instances, 
+    @classmethod # function decorators modify the behavior of a function
+    def cmethod(cls): # cls is equivalent as self, class methods automatically take cls as a parameter
+        return cls.count
+    
+    # static methods have no implicit first arg like self or cls
+    @staticmethod
+    def smethod(x, y):
+        return max(x,y)
 
-# COVER LANGUAGE LEVEL STATEMENTS: assignment (=, +=, -=, annotated assignment...), control flow (if, elif, else, for, while, break, continue), definition (def, class, return, yield),
-# exceptions (try, except, else, finally, raise, assert), import (import, from, as), scope (global, nonlocal), del (del), context (with), switch stmt (match, case), webdev (async, await)\
+ex1 = Example('7')
+ex2 = Example('4', 1)
+ex3 = Example('8')
+assert Example.cmethod() == 3 # weve initialized 3 instances of Example, incrementing count 3 times
+assert Example.smethod(2,6) == 6 # static methods are still required to be called using the class or an instance of the class
 
-# cover common development practices (type hinting)
+# python supports object oriented programming concepts (but also procedural, etc.) like inheritance, polymorphism, and abstraction...
+# inheritance: child class inherits attributes and methods from parent class
+class MiniExample(Example):
 
-# cover function decorators, *args, **kwargs, lambda functions
+    # the child with automatically inherit the parent constructor, and overriding it by writing a new __init__ allows us to add new fields or scrap it entirely
+    def __init__(self, id, st, arg=0, fault=True):
+        self.st = st
+        self.fault = fault
+        super().__init__(id, arg) # super() returns a proxy parent object
+
+    # we can override methods created in the parent class
+    def imethod(self):
+        return self.arg + 3
+
+mex = MiniExample("2", "g")
+assert isinstance(mex, MiniExample) and isinstance(mex, Example)
+# child instances may use functions implemented in the parent class
+assert mex.cmethod() == 4 # our inherited init function updates count in Example from 3 -> 4
+assert mex.imethod() == 3 and not mex.imethod() == 0 # imethod() has been overwritten
