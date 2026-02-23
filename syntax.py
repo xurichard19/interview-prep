@@ -75,9 +75,68 @@ dict = {"f":1, 3:0, "s":10, False:True}
 assert list(dict.keys()) == ['f', 3, 's', False]
 assert list(dict.values()) == [1, 0, 10, True]
 
+# we can unpack dictionaries using the ** operator
+assert "s" in {'9':9, "t":False, **dict, "f":None}
+
+#-------------------------------SET-------------------------------
+# declare with {}, o(1) search, elements must be immutable
+s = set()
+s.add(1)
+assert 1 in s
+
+try:
+    s.add([2,3])
+except:
+    pass
+assert(len(s) == 1)
+
+# we can perform operations on sets
+assert {2, 6, 3, 1} & {4, 2, 1} == {2, 1} # intersection
+assert {2, 6, 3, 1} | {4, 2, 1} == {2, 6, 3, 1, 4} # union
+assert {2, 6, 3, 1} - {4, 2, 1} == {6, 3} # difference
+assert not {2, 6, 3, 1} <= {4, 2, 1} # is subset of
+
+#---------------------------CONTROL FlOW---------------------------
+# indentation is necessary in python since we do not use ;
+
+# we have an equivalent to switch statements in python...
+m = 2
+a = None
+match m:
+    case 1:
+        raise ValueError
+    case 2:
+        a = True
+    case _: # default case
+        raise ZeroDivisionError
+assert a
+
+# loops can take any iterable/iterator...
+assert [i for i in enumerate([3,5,1])] == [(0, 3), (1, 5), (2, 1)]
+assert [i for i in "str"] == ["s", "t", "r"]
+
+# we handle exceptions in try except else blocks
+try:
+    raise IndentationError("message")
+except (TimeoutError, NameError):
+    raise BufferError
+except IndentationError as e:
+    pass
+else: pass
+
+# the with keyword allows python to automatically manage setup and cleanup operations
+with open("README.md", "r", encoding="utf-16") as f:
+    assert f.readlines()[1] == 'i review python, dsa, oop, testing, django, react, and sql\n'
+
+
+
+
+
+
+
 # COVER LANGUAGE LEVEL STATEMENTS: assignment (=, +=, -=, annotated assignment...), control flow (if, elif, else, for, while, break, continue), definition (def, class, return, yield),
 # exceptions (try, except, else, finally, raise, assert), import (import, from, as), scope (global, nonlocal), del (del), context (with), switch stmt (match, case), webdev (async, await)\
 
 # cover common development practices (type hinting)
 
-# cover function decorators, *args, lambda functions
+# cover function decorators, *args, **kwargs, lambda functions
