@@ -178,12 +178,11 @@ assert sorted(ed, key=lambda x: ed[x]) == ['a', 'b', 'c', 'olive garden']
 #-----------------------------MODULE-----------------------------
 # we import modules using the import keyword, we can examine the functions/attributes in a module with dir()
 # most useful standard modules in python (installation not required)...
-import os
-import sys
+import os # interact with operating system
+import sys # interact with python interpreter and runtime env
 import math # standard math functions
-import re
 import collections # data structures, queue/stack and heap implementations in particular
-import unittest
+import unittest # standard testing module
 
 # we can import under an alias or import specific functions from a module
 import json as j
@@ -230,12 +229,36 @@ class MiniExample(Example):
         self.fault = fault
         super().__init__(id, arg) # super() returns a proxy parent object
 
-    # we can override methods created in the parent class
+    # polymorphism: functions with the same name can be executed differently across different objects (like len() works differently for a str vs a list)
+    # an example of this is overriding a function from the parent class
     def imethod(self):
         return self.arg + 3
 
 mex = MiniExample("2", "g")
 assert isinstance(mex, MiniExample) and isinstance(mex, Example)
+
 # child instances may use functions implemented in the parent class
 assert mex.cmethod() == 4 # our inherited init function updates count in Example from 3 -> 4
 assert mex.imethod() == 3 and not mex.imethod() == 0 # imethod() has been overwritten
+
+# python also supports multiinheritance...
+class Parent1:
+    def __init__(self, a):
+        self.a = a
+    def num(self):
+        return 1
+class Parent2:
+    def __init__(self, b):
+        self.b = b
+    def num(self):
+        return 2
+class Child(Parent2, Parent1):
+    def __init__(self, a, b):
+        # super only works in the next base class in the method resolution order, meaning we have to explicitly call init for each parent
+        Parent1.__init__(self, a)
+        Parent2.__init__(self, b)
+child = Child('a', 'b')
+# to resolve the diamond problem, python has a method resolution order that dictates which implementation of a method it uses
+assert Child.__mro__ == (Child, Parent2, Parent1, object)
+# the order is based on the order in which the parent classes are listed in the child class definition, hence the implementation in parent2 takes precedence
+assert child.num() == 2

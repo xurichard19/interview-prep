@@ -21,3 +21,5 @@ based on w3schools
 # encapsulation
 
 # inner classes
+
+"""ABSTRACTION, @abstractmethod"""
