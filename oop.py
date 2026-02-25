@@ -61,30 +61,62 @@ class Parent:
     def method(self):
         return 0
 class ChildOne(Parent):
-    def method(self):
+    def method(self): # we override the parent behavior of method
         return 1
 class ChildTwo(Parent):
-    def method(self):
+    def method(self): # we override the parent behavior of method
         return 2
 obj1 = Parent(); obj2 = ChildOne(); obj3 = ChildTwo()
+# method() behaves differently according to the object we call it from
 assert (obj1.method(), obj2.method(), obj3.method()) == (0, 1, 2)
 
-# classes
+# built in functions like len() and max() are polymorphic as they behave according to the type of object passed
+assert len("str") == 3 and len((1,2,3)) == 3 # string length vs tuple length
 
-# __init__
+# encapsulation refers to the idea of grouping data and methods together (into classes) and hiding internal 
+# details of a class and only allowing interaction with a controlled public interface
+class Class:
+    def __init__(self, public, protected, private):
+        self.public = public # accessed anywhere outside class
+        self._protected = protected # python does not enforce this, hint for developer for internal use
+        self.__private = private # python does not strictly enforce this, instead converts the name to ._Class__private to discourage use
+    def method(self): # public method
+        return 0
+    def _method(self): # protected method
+        return 1
+    def __method(self): # private method
+        return 2
+    def set_var(self, arg): # its good practice to utilize getter and setter methods to safely update private data
+        self.__private = arg
+    def get_var(self):
+        self.__private
+obj = Class(0, 1, 2)
+assert obj.public == 0 and obj._protected == 1 and obj._Class__private == 2
+assert obj.method() == 0 and obj._method() == 1 and obj._Class__method() == 2
+obj.set_var(False)
+assert not obj.get_var()
 
-# self
+# data abstraction refers to the idea of hiding implementation details and only showing high-level features
+from abc import ABC, abstractmethod # we have to import the abstract base classes module to use the abstractmethod decorator
+class Blueprint(ABC): # our 'blueprint' class must inherit from ABC to enforce rules
+    @abstractmethod # decorator that means subclasses MUST override this method
+    def method(self):
+        pass # we dont implement abstract methods, but of course python doesnt enforce this either
 
-# properties
-
-# methods
-
-# inheritance
-
-# polymorphism
-
-# encapsulation
-
-# inner classes
-
-"""ABSTRACTION, @abstractmethod"""
+    # we can also force subclasses to have properties by combining the property and abstractmethod decorators
+    @property # the property decorator allows us to access the class using the standard dot operator without parenthesis
+    @abstractmethod
+    def attr(self):
+        pass
+class Class(Blueprint):
+    # we wont be able to instantiate any instances of class without implementing method() and attr()
+    def method(self): # we now make a concrete implementation of method() in the child class
+        return True
+    
+    @property
+    def attr(self):
+        return True
+# bp = Blueprint() will return a TypeError, we cant instantiate abstract classes
+obj = Class()
+assert obj.method() and obj.attr
+# abstraction in python is not required or very useful for that matter...
