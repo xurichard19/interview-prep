@@ -1,0 +1,16 @@
+<!DOCTYPE html> <!-- forces browser to render in standards mode for html-->
+<html lang="en"> <!-- wraps entire page -->
+<head> <!-- metadata, not visible to users -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example</title> <!-- title that displays in tab name -->
+</head>
+<body> <!-- the actual content of the page -->
+    <h1>Example Header</h1>
+    {% for example in examples %} <!-- the {% tag is used for logic (loops, conditionals, etc.) -->
+        <h2>{{example.feature_one}}</h2> <!-- the {{ tag denotes a template variable, the same as print(variable) -->
+        <p>{{example.feature_two}}</p>
+        <small>{{example.feature_three}}</small>
+    {% endfor %}
+</body>
+</html> 
