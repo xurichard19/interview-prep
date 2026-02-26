@@ -238,7 +238,7 @@ mex = MiniExample("2", "g")
 assert isinstance(mex, MiniExample) and isinstance(mex, Example)
 
 # child instances may use functions implemented in the parent class
-assert mex.cmethod() == 4 # our inherited init function updates count in Example from 3 -> 4
+assert Example.count == MiniExample.count == mex.count == 4 # our inherited init function updates count in Example from 3 -> 4
 assert mex.imethod() == 3 and not mex.imethod() == 0 # imethod() has been overwritten
 
 # python also supports multiinheritance...
